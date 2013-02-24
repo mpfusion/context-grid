@@ -1,0 +1,78 @@
+%D \module
+%D   [     file=t-grid,
+%D      version=2013.02.24,
+%D        title=\CONTEXT\ User Module,
+%D     subtitle=Background grid,
+%D       author=Marco Patzer,
+%D         date=\currentdate,
+%D    copyright=Marco Patzer,
+%D      license=GNU General Public License]
+
+%C Copyright (C) 2013  Marco Patzer
+%C
+%C This program is free software: you can redistribute it and/or modify
+%C it under the terms of the GNU General Public License as published by
+%C the Free Software Foundation, either version 3 of the License, or
+%C any later version.
+
+\writestatus{loading}{ConTeXt User Module / Background grid}
+
+\startmodule [grid]
+
+\unprotect
+
+\defineoverlay
+	[grid]
+	[\reuseMPgraphic{grid}]
+
+\setupbackgrounds
+	[page]
+	[background=grid]
+
+\definelayer
+	[page]
+	[width=\paperwidth,
+	 height=\paperheight,
+	 preset=leftbottom]
+
+\startreusableMPgraphic {grid}
+	StartPage;
+
+	mmThickness := .3pt;
+	cmThickness := .5pt;
+
+	color mmColor, cmColor, labelColor;
+	mmColor    := .95white;
+	cmColor    := .9white;
+	labelColor := .8white;
+
+	width  := PaperWidth;
+	height := PaperHeight;
+
+	drawoptions(withpen pencircle scaled mmThickness withcolor mmColor);
+	draw vlingrid(0, width/cm,  1/10, width,  height);
+	draw hlingrid(0, height/cm, 1/10, height, width);
+
+	drawoptions(withpen pencircle scaled cmThickness withcolor cmColor);
+	draw vlingrid(0, width/cm,  1, width,  height);
+	draw hlingrid(0, height/cm, 1, height, width);
+
+	drawoptions(withcolor labelColor);
+	H:=height*2.54/72;
+	for i=0 upto H:
+		label.rt(decimal(i), (0, i*cm));
+		label.lft(decimal(i), (width, i*cm));
+	endfor
+
+	W := width*2.54/72;
+	for i=0 upto W:
+		label.bot(decimal(i), (i*cm, height));
+		label.top(decimal(i), (i*cm, 0));
+	endfor
+
+	StopPage;
+\stopreusableMPgraphic
+
+\protect
+
+\stopmodule
