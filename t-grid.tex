@@ -21,21 +21,25 @@
 
 \unprotect
 
+\defineMPinstance
+	[\c!grid]
+	[metafun]
+
 \defineoverlay
-	[grid]
-	[\reuseMPgraphic{grid}]
+	[\c!grid]
+	[\reuseMPgraphic{\c!grid::\c!grid}]
 
 \setupbackgrounds
-	[page]
-	[background=grid]
+	[\c!page]
+	[\c!background=\c!grid]
 
 \definelayer
-	[page]
-	[width=\paperwidth,
-	 height=\paperheight,
-	 preset=leftbottom]
+	[\c!page]
+	[\c!width=\paperwidth,
+	 \c!height=\paperheight,
+	 \c!preset=\v!leftbottom]
 
-\startreusableMPgraphic {grid}
+\startreusableMPgraphic{\c!grid::\c!grid}
 	StartPage;
 
 	mmThickness := .3pt;
@@ -58,7 +62,7 @@
 	draw hlingrid(0, height/cm, 1, height, width);
 
 	drawoptions(withcolor labelColor);
-	H:=height*2.54/72;
+	H := height*2.54/72;
 	for i=0 upto H:
 		label.rt(decimal(i), (0, i*cm));
 		label.lft(decimal(i), (width, i*cm));
